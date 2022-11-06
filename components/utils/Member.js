@@ -1,27 +1,69 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Member = ()=>{
-    return (
-      <View style={styles.member}>
-        <TextInput style={styles.memberName} defaultValue="member1"></TextInput>
+const Member = props => {
+  const [name, setName] = React.useState(props.name);
+  const [paid, setPaid] = React.useState(props.paid);
+  const [due, setDue] = React.useState(props.due);
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-          }}>
-          <Text style={styles.paidAmount}>Paid:</Text>
-          <TextInput keyboardType='numeric' style={styles.paidAmount} defaultValue="₹20" />
-        </View>
+  React.useEffect(() => {
+    let temp = props.members;
+    temp[props.index] = {name: name, paid: paid, due: due};
+    props.setMembers(temp);
+  }, [name, due, paid]);
 
+  const removeItem = () => {
+    props.setMembers(props.members.filter((_, index) => index !== props.index));
+    console.log('index removed: ' + props.index);
+  };
 
-        <Icon name="trash" size={20} color="#fc3503" />
+  return (
+    <View style={styles.member}>
+      <TextInput
+        style={styles.memberName}
+        defaultValue={props.name}
+        onChangeText={text => setName(text)}
+      />
+
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
+        <Text style={styles.paidAmount}>Paid: ₹</Text>
+        <TextInput
+          keyboardType="numeric"
+          style={styles.paidAmount}
+          defaultValue={`${props.paid}`}
+          onChangeText={text => setPaid(text)}
+        />
       </View>
-    );
-}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
+        <Text style={styles.dueAmount}>To pay: ₹</Text>
+        <TextInput
+          keyboardType="numeric"
+          style={styles.dueAmount}
+          defaultValue={`${props.due}`}
+          onChangeText={text => setDue(text)}
+        />
+      </View>
+
+      <Pressable
+        onPress={() => removeItem()}
+        android_ripple={{color: '#fc5603'}}
+        hitSlop={10}>
+        <Icon name="trash" size={20} color="#fc3503" />
+      </Pressable>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -63,7 +105,7 @@ const styles = StyleSheet.create({
     color: 'green',
   },
   dueAmount: {
-    fontSize: 15,
+    fontSize: 20,
     marginLeft: 10,
     color: 'red',
   },

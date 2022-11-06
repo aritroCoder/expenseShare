@@ -3,7 +3,7 @@ import {
   ScrollView,
   View,
   Text,
-  StyleSheet, 
+  StyleSheet,
   TextInput,
   Pressable,
   ToastAndroid,
@@ -14,7 +14,7 @@ import auth from '@react-native-firebase/auth';
 
 import Member from '../utils/Member';
 
-const EditGroup = ({navigation}) => {
+const EditExistingGroup = (props) => {
   const [members, setMembers] = React.useState([]);
   const [grpName, setGrpName] = React.useState('Group Name');
   const [uid, setUid] = React.useState(null);
@@ -26,43 +26,46 @@ const EditGroup = ({navigation}) => {
         console.log('Uid = ' + user.uid);
       }
     });
+
+    setGrpName(props.route.params.group.name);
+    setMembers(props.route.params.group.members);
+
   }, []);
 
   const handleSave = () => {
     console.log(JSON.stringify(members));
 
-    // only save if total amount paid === total amount to pay
-    let totalPaid = 0;
-    let totalToPay = 0;
-    members.forEach(member => {
-      totalPaid += parseInt(member.paid);
-      totalToPay += parseInt(member.due);
-    });
-
-    if (totalPaid !== totalToPay) { // if not equal
-      ToastAndroid.show('Total amount paid and total amount to pay must be equal', ToastAndroid.SHORT);
-      return;
-    }
-
     firestore()
       .collection(uid)
-      .add({
+      .doc(props.route.params.group.id)
+      .update({
         name: grpName,
         members: members,
       })
       .then(() => {
-        console.log('Group added!');
+        ToastAndroid.show('Group Updated', ToastAndroid.SHORT);
+        props.navigation.navigate('Groups');
       });
-    ToastAndroid.show('Group added!', ToastAndroid.SHORT);
-    navigation.navigate('Groups');
+    props.navigation.navigate('Groups');
   };
 
+  const removeGroup = () => {
+    firestore()
+      .collection(uid)
+      .doc(props.route.params.group.id)
+      .delete()
+      .then(() => {
+        ToastAndroid.show('Group Deleted. Pull down to refresh list', ToastAndroid.SHORT);
+        props.navigation.navigate('Groups');
+      });
+  };
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <TextInput
           style={styles.title}
-          defaultValue="Group Name"
+          defaultValue={grpName}
           onChangeText={text => setGrpName(text)}
         />
       </View>
@@ -86,8 +89,10 @@ const EditGroup = ({navigation}) => {
         <Pressable
           android_ripple={{color: '#78b3e3'}}
           style={styles.addBtn}
-          onPress={() => navigation.goBack()}>
-          <Text style={{color: '#60a7e0', marginLeft: 0, fontSize: 37}}>←</Text>
+          onPress={() => props.navigation.goBack()}>
+          <Text style={{color: '#60a7e0', marginLeft: 0, fontSize: 37}}>
+            ←
+          </Text>
         </Pressable>
         <Pressable
           android_ripple={{color: '#78b3e3'}}
@@ -105,6 +110,13 @@ const EditGroup = ({navigation}) => {
           style={styles.saveBtn}
           onPress={() => handleSave()}>
           <Icon name="save" size={40} color="#038cfc" />
+        </Pressable>
+        <Pressable
+          onPress={() => removeGroup()}
+          android_ripple={{color: '#fc5603'}}
+          style={{alignItems: 'center', marginTop: 20}}
+          hitSlop={10}>
+          <Icon name="trash" size={40} color="#fc3503" />
         </Pressable>
       </View>
     </ScrollView>
@@ -178,4 +190,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditGroup;
+export default EditExistingGroup;

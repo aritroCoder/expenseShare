@@ -1,19 +1,26 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
-const GroupsList = () => {
+const GroupCard = (props) => {
   return (
-    <View style={styles.infoCard}>
-      <Text style={styles.groupName}> Group Name </Text>
+    <Pressable
+      style={styles.infoCard}
+      onPress={() => props.navigator.navigate('EditExistingGroup', {index: props.index, group: props.group})}>
+      <Text style={styles.groupName}> {props.name} </Text>
       <View style={styles.twoGroups}>
         <View style={styles.membersSection}>
-          <Text style={styles.membersName}> Group Members </Text>
+          <Text style={styles.membersName}> Group Members: </Text>
+          {props.members.map((member, index) => (
+            <Text style={styles.membersName} key={index}>
+              {member.name}
+            </Text>
+          ))}
         </View>
         <View style={styles.duesSection}>
           <Text style={styles.duesName}> My dues </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -54,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GroupsList;
+export default GroupCard;

@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {
   GoogleSignin,
   GoogleSigninButton,
-  statusCodes,
+  statusCodes
 } from '@react-native-google-signin/google-signin';
 
 const LoginWithGoogle = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
 
   React.useEffect(() => {
 
     auth().onAuthStateChanged((user)=>{
-      console.log(user);
+      // console.log(user);
       if(user) navigation.navigate('Groups');
     });
 
@@ -34,6 +35,7 @@ const LoginWithGoogle = ({navigation}) => {
   };
 
   async function onGoogleButtonPress() {
+    setLoading(true);
     // Check if your device supports Google Play
     await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
     // Get the users ID token
@@ -42,6 +44,9 @@ const LoginWithGoogle = ({navigation}) => {
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
+    // console.log("Signed in with Google");
+    setLoading(false);
+    navigation.navigate('Groups');
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
   }
@@ -54,6 +59,7 @@ const LoginWithGoogle = ({navigation}) => {
         color={GoogleSigninButton.Color.Dark}
         onPress={onGoogleButtonPress}
       />
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
     </View>
   );
 };

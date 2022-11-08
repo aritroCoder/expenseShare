@@ -62,7 +62,7 @@ const EditGroup = ({navigation}) => {
       <View style={styles.header}>
         <TextInput
           style={styles.title}
-          defaultValue="Group Name"
+          placeholder="Group Name"
           onChangeText={text => setGrpName(text)}
         />
       </View>
@@ -93,7 +93,7 @@ const EditGroup = ({navigation}) => {
           android_ripple={{color: '#78b3e3'}}
           style={styles.addBtn}
           onPress={() =>
-            setMembers([...members, {name: 'member', paid: 0, due: 0}])
+            setMembers([...members, {defaultName: 'member', paid: 0, due: 0}])
           }>
           <Icon name="plus" size={40} color="#038cfc" />
           <Text style={{color: '#60a7e0', marginLeft: 15, fontSize: 17}}>

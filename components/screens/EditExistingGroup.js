@@ -35,6 +35,23 @@ const EditExistingGroup = (props) => {
   const handleSave = () => {
     console.log(JSON.stringify(members));
 
+    // only save if total amount paid === total amount to pay
+    let totalPaid = 0;
+    let totalToPay = 0;
+    members.forEach(member => {
+      totalPaid += parseInt(member.paid);
+      totalToPay += parseInt(member.due);
+    });
+
+    if (totalPaid !== totalToPay) {
+      // if not equal
+      ToastAndroid.show(
+        'Total amount paid and total amount to pay must be equal',
+        ToastAndroid.SHORT,
+      );
+      return;
+    }
+
     firestore()
       .collection(uid)
       .doc(props.route.params.group.id)
@@ -98,7 +115,7 @@ const EditExistingGroup = (props) => {
           android_ripple={{color: '#78b3e3'}}
           style={styles.addBtn}
           onPress={() =>
-            setMembers([...members, {name: 'member', paid: 0, due: 0}])
+            setMembers([...members, {defaultName: 'member', paid: 0, due: 0}])
           }>
           <Icon name="plus" size={40} color="#038cfc" />
           <Text style={{color: '#60a7e0', marginLeft: 15, fontSize: 17}}>

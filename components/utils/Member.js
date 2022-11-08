@@ -22,7 +22,8 @@ const Member = props => {
     <View style={styles.member}>
       <TextInput
         style={styles.memberName}
-        defaultValue={props.name}
+        defaultValue={props.name?props.name:null}
+        placeholder="Name"
         onChangeText={text => setName(text)}
       />
 

@@ -49,3 +49,5 @@ function App() {
 export default App;
 
 
+// keytool -genkeypair -v -storetype PKCS12 -keystore expenseShare.keystore -alias expenseShare -keyalg RSA -keysize 2048 -validity 10000
+// password for key generation: 'password'

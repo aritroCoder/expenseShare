@@ -83,28 +83,23 @@ const EditGroup = ({navigation}) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Pressable
-          android_ripple={{color: '#78b3e3'}}
-          style={styles.addBtn}
-          onPress={() => navigation.goBack()}>
-          <Text style={{color: '#60a7e0', marginLeft: 0, fontSize: 37}}>←</Text>
-        </Pressable>
+       
         <Pressable
           android_ripple={{color: '#78b3e3'}}
           style={styles.addBtn}
           onPress={() =>
             setMembers([...members, {defaultName: 'member', paid: 0, due: 0}])
           }>
-          <Icon name="plus" size={40} color="#038cfc" />
-          <Text style={{color: '#60a7e0', marginLeft: 15, fontSize: 17}}>
+          <Icon name="plus" size={30} color="#038cfc" />
+          {/* <Text style={{color: '#60a7e0', marginLeft: 15, fontSize: 17}}>
             Add
-          </Text>
+          </Text> */}
         </Pressable>
         <Pressable
           android_ripple={{color: '#78b3e3'}}
           style={styles.saveBtn}
           onPress={() => handleSave()}>
-          <Icon name="save" size={40} color="#038cfc" />
+          <Icon name="save" size={30} color="#038cfc" />
         </Pressable>
       </View>
     </ScrollView>
@@ -114,7 +109,7 @@ const EditGroup = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FCDDB0',
     marginTop: 20,
     padding: 10,
   },
@@ -135,6 +130,8 @@ const styles = StyleSheet.create({
   memberName: {
     fontSize: 20,
     marginBottom: 10,
+    fontWeight:"bold",
+    color:"#001253"
   },
   member: {
     flexDirection: 'row',
@@ -144,6 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
+    
   },
   paidAmount: {
     fontSize: 15,

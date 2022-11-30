@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   ScrollView,
   View,
@@ -103,48 +103,43 @@ const EditExistingGroup = (props) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Pressable
-          android_ripple={{color: '#78b3e3'}}
-          style={styles.addBtn}
-          onPress={() => props.navigation.goBack()}>
-          <Text style={{color: '#60a7e0', marginLeft: 0, fontSize: 37}}>
-            ←
-          </Text>
-        </Pressable>
+        
         <Pressable
           android_ripple={{color: '#78b3e3'}}
           style={styles.addBtn}
           onPress={() =>
             setMembers([...members, {defaultName: 'member', paid: 0, due: 0}])
           }>
-          <Icon name="plus" size={40} color="#038cfc" />
-          <Text style={{color: '#60a7e0', marginLeft: 15, fontSize: 17}}>
+          <Icon name="plus" size={30} color="#038cfc" />
+          {/* <Text style={{color: '#60a7e0', marginLeft: 15, fontSize: 17}}>
             Add
-          </Text>
+          </Text> */}
         </Pressable>
         <Pressable
           android_ripple={{color: '#78b3e3'}}
           style={styles.saveBtn}
           onPress={() => handleSave()}>
-          <Icon name="save" size={40} color="#038cfc" />
+          <Icon name="save" size={30} color="#038cfc" />
         </Pressable>
         <Pressable
           onPress={() => removeGroup()}
           android_ripple={{color: '#fc5603'}}
-          style={{alignItems: 'center', marginTop: 20}}
+          style={{alignItems: 'center', marginTop: 20,left:10,bottom:5}}
           hitSlop={10}>
-          <Icon name="trash" size={40} color="#fc3503" />
+          <Icon name="trash" size={30} color="#fc3503" />
         </Pressable>
       </View>
     </ScrollView>
+
+    
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    marginTop: 20,
+    backgroundColor: '#FCDDB0',
+    //marginTop: 20,
     padding: 10,
   },
   header: {
@@ -155,15 +150,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    marginBottom: 20,
+    //marginBottom: 10,
+    color:'#001253',
+    fontWeight:"bold",
     borderBottomWidth: 1,
+
   },
   memberList: {
     marginTop: 20,
+    
   },
   memberName: {
-    fontSize: 20,
+    fontSize: 25,
     marginBottom: 10,
+    color:'#001253',
+    fontWeight:"bold"
   },
   member: {
     flexDirection: 'row',
@@ -191,19 +192,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 120,
     borderRadius: 30,
+    right:0,
+    top:10
   },
   buttonContainer: {
+    
     flexDirection: 'row',
     justifyContent: 'space-around',
+    // position:'absolute',
+    // margin: 16,
+    // right: 10,
+    // top:170,
+    // bottom:0,
   },
-  addBtn: {
+  addBtn: {    
+    bottom:0,
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    height:'100%',
+    
+    
     justifyContent: 'space-between',
   },
   saveBtn: {
     padding: 15,
+    allignItem:"center",
+    
   },
 });
 

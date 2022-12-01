@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   memberName: {
     fontSize: 20,
     marginBottom: 10,
+    top:5
   },
   member: {
     flexDirection: 'row',
@@ -99,6 +100,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
+    
   },
   paidAmount: {
     fontSize: 20,

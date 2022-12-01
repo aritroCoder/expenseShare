@@ -41,10 +41,12 @@ const LoginWithGoogle = ({navigation}) => {
     // Get the users ID token
     const {idToken} = await GoogleSignin.signIn();
 
+    console.log(idToken)
+
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
-    // console.log("Signed in with Google");
+    console.log("Signed in with Google");
     setLoading(false);
     navigation.navigate('Groups');
     // Sign-in the user with the credential

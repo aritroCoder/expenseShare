@@ -37,12 +37,12 @@ const GroupsList = ({navigation}) => {
 
   React.useEffect(() => {
     auth().onAuthStateChanged(user => {
-      setUid(user.uid);
       if (onAuthCalled) {
         console.log('Prevented a error call to onAuthStateChanged');
         return null;
       }
       if (user) {
+        setUid(user.uid);
         onAuthCalled = true; // so that on auth state changed is called only once
         setGroups([]);
         console.log('User is: ' + JSON.stringify(user));
